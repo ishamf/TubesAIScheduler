@@ -1,6 +1,7 @@
 #ifndef MATA_KULIAH_H
 #define MATA_KULIAH_H
 
+#include "Schedule.hpp"
 #include "Classroom.hpp"
 #include <memory>
 #include <set>
@@ -8,31 +9,21 @@
 
 class Course {
 public:
-  enum class Day {
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday
-  };
+  Course(const string& name, const int duration, const int open_time, const int close_time );
 
-  Course(const string& name, const Day day, const shared_ptr<Classroom>& room, const int duration );
+  const set<Schedule>& get_possible_schedule() const;
 
-  const string& get_name() const;
-  Day get_day() const;
-  int get_duration() const;
-  const set<int>& get_possible_start_time() const;
+  void seed_domain(const shared_ptr<Classroom>& room, const Day day);
+  void seed_domain(const shared_ptr<Classroom>& room);
+  void clear_domain();
+  void remove_from_domain(const Schedule&);
 
-  void seed_single_domain(int start_time);
-  void seed_domain_by_room_schedule();
-  void remove_from_domain(int start_time);
-
-private:
-  set<int> possible_start_time;
   const string name;
-  const shared_ptr<Classroom> room;
   const int duration;
-  const Day day;
+  const int open_time;
+  const int close_time;
+private:
+  set<Schedule> possible_schedule;
 };
 
 #endif

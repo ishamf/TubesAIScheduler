@@ -9,14 +9,14 @@ using namespace std;
 
 int main(){
   const shared_ptr<Classroom> room( new Classroom("7606",8,16) );
-  shared_ptr<Course> course( new Course("AI",Course::Day::Thursday, room, 2) );
+  shared_ptr<Course> course( new Course("AI",2, 7, 15) );
 
-  course->seed_domain_by_room_schedule();
+  course->seed_domain(room);
 
-  const set<int>& pst = course->get_possible_start_time();
+  const set<Schedule>& pst = course->get_possible_schedule();
 
   for( auto it : pst ){
-    cout << it << endl;
+    cout << static_cast<int>(it.day)+1 << " " << it.start_time << endl;
   }
 
   return 0;
