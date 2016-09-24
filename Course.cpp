@@ -2,43 +2,49 @@
 #include <cassert>
 #include <algorithm>
 
+const char* ScheduleNotDefined::what() const throw() {
+  return "Schedule is not defined";
+}
+
+ScheduleInvalid::ScheduleInvalid(const string& variable) : message("Schedule\'s "+variable+" is not valid") {}
+
+const char* ScheduleInvalid::what() const throw() {
+  return message.c_str();
+}
 
 Course::Course(const string& n, const int d, const int ot, const int ct )
 :
 name(n),
 duration(d),
 open_time(ot),
-close_time(ct)
+close_time(ct),
+schedule(nullptr)
 {
 
 }
 
-const set<Schedule>& Course::get_possible_schedule() const {
-  return possible_schedule;
+const Schedule& Course::get_schedule() const {
+  if( !schedule )
+    throw ScheduleNotDefined();
+  return *schedule;
 }
 
-void Course::seed_domain(const shared_ptr<Classroom>& room, const Day day){
-
-  const int ot = std::max( room->open_time, open_time );
-  const int ct = std::min( room->close_time, close_time );
-
-  for( int t = ot; t + duration <= ct; ++ t ){
-    possible_schedule.insert(Schedule(room,day,t,t+duration));
-  }
+void Course::set_schedule(const Schedule& s){
+  check_schedule(s);
+  schedule.reset();
+  schedule = unique_ptr<Schedule>( new Schedule(s) );
 }
 
-void Course::seed_domain(const shared_ptr<Classroom>& room){
-  seed_domain(room,Day::Monday);
-  seed_domain(room,Day::Tuesday);
-  seed_domain(room,Day::Wednesday);
-  seed_domain(room,Day::Thursday);
-  seed_domain(room,Day::Friday);
+void Course::check_schedule() const {
+  assert(schedule);
+  check_schedule(*schedule);
 }
 
-void Course::clear_domain(){
-  possible_schedule.clear();
-}
+void Course::check_schedule(const Schedule& s) const {
+  const int ot = std::max( s.room->open_time, open_time );
+  const int ct = std::min( s.room->close_time, close_time );
 
-void Course::remove_from_domain(const Schedule& s){
-  possible_schedule.erase( s );
+  if( s.start_time < ot ) throw ScheduleInvalid("start_time");
+  if( s.end_time > ct ) throw ScheduleInvalid("end_time");
+  if( s.end_time - s.start_time != duration ) throw ScheduleInvalid("duration");
 }
