@@ -24,6 +24,8 @@ public:
   const Day day;
   const int start_time;
   const int end_time;
+
+  static bool intersect(const Schedule&, const Schedule& );
 };
 
 
