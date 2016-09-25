@@ -24,9 +24,8 @@ private:
 
 class Course {
 public:
-  Course(const string& name, const int duration, const int open_time, const int close_time );
-
-  const set<Schedule>& get_possible_schedule() const;
+  Course(const string& name, const int duration, const int open_time, const int close_time);
+  Course(const Course& c);
 
   void check_schedule() const;
   void check_schedule(const Schedule& s) const;
@@ -39,6 +38,7 @@ public:
   const int duration;
   const int open_time;
   const int close_time;
+
 private:
   unique_ptr<Schedule> schedule;
 };

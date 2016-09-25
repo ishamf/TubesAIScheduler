@@ -23,6 +23,10 @@ schedule(nullptr)
 
 }
 
+Course::Course(const Course& c) : Course(c.name,c.duration,c.open_time,c.close_time) {
+
+}
+
 const Schedule& Course::get_schedule() const {
   if( !schedule )
     throw ScheduleNotDefined();
@@ -36,7 +40,8 @@ void Course::set_schedule(const Schedule& s){
 }
 
 void Course::check_schedule() const {
-  assert(schedule);
+  if( !schedule )
+    throw ScheduleNotDefined();
   check_schedule(*schedule);
 }
 
