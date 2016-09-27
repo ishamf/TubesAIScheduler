@@ -13,12 +13,14 @@ State::State(const State& s) : State(s.rooms,s.courses){
 void State::init_random_schedule(){
   std::default_random_engine generator;
 
-  std::uniform_int_distribution<int> room_idx_dist(0,rooms.size()-1);
   std::uniform_int_distribution<int> day_dist(0,4);
 
   for( auto& it : courses ){
     // random location
-    shared_ptr<Classroom> room = rooms[ room_idx_dist(generator) ];
+    auto& crooms = it->get_possible_classroom();
+    std::uniform_int_distribution<int> room_idx_dist(0,crooms.size()-1);
+
+    shared_ptr<Classroom> room = crooms[ room_idx_dist(generator) ];
 
     // random time
     const int ot = std::max( room->open_time, it->open_time );
