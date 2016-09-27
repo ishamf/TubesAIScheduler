@@ -14,17 +14,18 @@ int main(){
   rooms.emplace_back(new Classroom("7602",8,16));
 
   CourseVector courses;
-  courses.emplace_back(new Course("AI",2, 7, 15));
-  courses.emplace_back(new Course("TBFO",3, 7, 12));
+  courses.emplace_back(new Course("AI",2, 7, 15, rooms));
+  courses.emplace_back(new Course("TBFO",3, 7, 12, rooms));
 
-  shared_ptr<Classroom> room(new Classroom("7606",8,16));
-  Course course("AI",2,7,15);
+  shared_ptr<Classroom> room (new Classroom("7606",8,16));
+  Course course("AI",2,7,15, {room});
   course.set_schedule(Schedule(room,Day::Monday,8,10));
   course.get_schedule();
 
   Course course2(course);
 
   cout << course2.get_schedule().start_time << endl;
+  cout << course2.get_possible_classroom()[0]->open_time << endl;
 
 //  Schedule s1(room,Day::Monday,8,9);
 //  Schedule s2(room2,Day::Monday,7,9);
