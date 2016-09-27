@@ -34,8 +34,19 @@ void State::init_random_schedule(){
 }
 
 int State::fitness_score(){
-  // TODO : calculate fitness score
-  return 1;
+  int fit = 0;
+  for (int i = 0;i < courses.size();i++) {
+
+    //For Debugging Purposes
+    //printf("%d %d %d\n", courses[i]->get_schedule().day, courses[i]->get_schedule().start_time, courses[i]->get_schedule().end_time);
+
+    for (int j = i+1;j < courses.size();j++) {
+      if (Schedule::intersect(courses[i]->get_schedule(), courses[j]->get_schedule())) {
+        fit++;
+      }
+    }
+  }
+  return fit;
 }
 
 State State::mutate(){
@@ -44,8 +55,16 @@ State State::mutate(){
   return s;
 }
 
-State State::crossover( const State& lhs, const State& rhs){
-  State res = lhs;
+void crossover( State& lhs, State& rhs){
+  std::random_device rd;
+  std::mt19937 seed(rd());
+  std::uniform_int_distribution<> mid(1, (lhs.courses.size()-2));
+
+  for (int i = 0;i < mid(seed);i++) {
+    const Schedule s = lhs.courses[i]->get_schedule();
+    lhs.courses[i]->set_schedule(rhs.courses[i]->get_schedule());
+    rhs.courses[i]->set_schedule(s);
+  }
   // TODO : Do crossover
-  return res;
+
 }
