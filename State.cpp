@@ -58,13 +58,25 @@ State State::mutate(){
 void crossover( State& lhs, State& rhs){
   std::random_device rd;
   std::mt19937 seed(rd());
-  std::uniform_int_distribution<> mid(1, (lhs.courses.size()-2));
+  std::uniform_int_distribution<int> mid(0, (lhs.courses.size()-2));
 
-  for (int i = 0;i < mid(seed);i++) {
+  //For Debugging Purposes
+  /*for (int i = 0;i < lhs.courses.size();i++) {
+    printf("lhs course %d: %d %d %d\n", i+1, lhs.courses[i]->get_schedule().day, lhs.courses[i]->get_schedule().start_time, lhs.courses[i]->get_schedule().end_time);
+    printf("rhs course %d: %d %d %d\n", i+1, rhs.courses[i]->get_schedule().day, rhs.courses[i]->get_schedule().start_time, rhs.courses[i]->get_schedule().end_time);
+  }
+  printf("%d\n", mid(seed));
+  */
+  for (int i = 0;i < mid(seed);i++) { // <---- still need a better random algorithm
     const Schedule s = lhs.courses[i]->get_schedule();
     lhs.courses[i]->set_schedule(rhs.courses[i]->get_schedule());
     rhs.courses[i]->set_schedule(s);
   }
-  // TODO : Do crossover
 
+  //For Debugging Purposes
+  /*for (int i = 0;i < lhs.courses.size();i++) {
+    printf("lhs course %d: %d %d %d\n", i+1, lhs.courses[i]->get_schedule().day, lhs.courses[i]->get_schedule().start_time, lhs.courses[i]->get_schedule().end_time);
+    printf("rhs course %d: %d %d %d\n", i+1, rhs.courses[i]->get_schedule().day, rhs.courses[i]->get_schedule().start_time, rhs.courses[i]->get_schedule().end_time);
+  }
+  */
 }
