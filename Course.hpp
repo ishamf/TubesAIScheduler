@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <exception>
+#include <vector>
 
 class ScheduleNotDefined: public std::exception {
 public:
@@ -24,12 +25,13 @@ private:
 
 class Course {
 public:
-  Course(const string& name, const int duration, const int open_time, const int close_time);
+  Course(const string& name, const int duration, const int open_time, const int close_time, const vector<shared_ptr<Classroom>>& rooms);
   Course(const Course& c);
 
   void check_schedule() const;
   void check_schedule(const Schedule& s) const;
 
+  const vector<shared_ptr<Classroom>>& get_possible_classroom() const;
   void set_schedule(const Schedule&);
   const Schedule& get_schedule() const ;
 
@@ -41,6 +43,7 @@ public:
 
 private:
   unique_ptr<Schedule> schedule;
+  vector<shared_ptr<Classroom>> possible_classroom;
 };
 
 #endif
