@@ -24,7 +24,8 @@ schedule(nullptr)
 }
 
 Course::Course(const Course& c) : Course(c.name,c.duration,c.open_time,c.close_time) {
-
+  if( c.schedule )
+    set_schedule(*c.schedule);
 }
 
 const Schedule& Course::get_schedule() const {
