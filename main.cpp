@@ -26,6 +26,7 @@ int main(){
 
   cout << course2.get_schedule().start_time << endl;
   cout << course2.get_possible_classroom()[0]->open_time << endl;
+  cout << static_cast<int>(course2.get_assigned_day()) << endl;
 
 //  Schedule s1(room,Day::Monday,8,9);
 //  Schedule s2(room2,Day::Monday,7,9);

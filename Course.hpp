@@ -25,13 +25,14 @@ private:
 
 class Course {
 public:
-  Course(const string& name, const int duration, const int open_time, const int close_time, const vector<shared_ptr<Classroom>>& rooms);
+  Course(const string& name, const int duration, const int open_time, const int close_time, const vector<shared_ptr<Classroom>>& rooms, Day day = Day::Undefined);
   Course(const Course& c);
 
   void check_schedule() const;
   void check_schedule(const Schedule& s) const;
 
   const vector<shared_ptr<Classroom>>& get_possible_classroom() const;
+  const Day get_assigned_day() const;
   void set_schedule(const Schedule&);
   const Schedule& get_schedule() const ;
 
@@ -44,6 +45,7 @@ public:
 private:
   unique_ptr<Schedule> schedule;
   vector<shared_ptr<Classroom>> possible_classroom;
+  const Day assigned_day;
 };
 
 #endif

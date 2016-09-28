@@ -11,7 +11,8 @@ enum class Day {
   Tuesday,
   Wednesday,
   Thursday,
-  Friday
+  Friday,
+  Undefined
 };
 
 class Schedule {
