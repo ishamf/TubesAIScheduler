@@ -24,7 +24,8 @@ public:
 
   int fitness_score();
   State mutate();
-  static State crossover( const State&, const State& );
+  //static State crossover( const State&, const State& );
+  friend void crossover( State&, State& );
 
 private:
 
