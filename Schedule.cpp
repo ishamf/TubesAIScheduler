@@ -22,3 +22,8 @@ bool Schedule::intersect(const Schedule& lhs, const Schedule& rhs){
 
   return true;
 }
+
+void Schedule::printdata() const{
+  cout << "Schedule: room " << room->name;
+  printf(" day %d st %d et %d\n", day, start_time, end_time);
+}

@@ -41,6 +41,8 @@ public:
   const int open_time;
   const int close_time;
 
+  void printdata() const;
+
 private:
   unique_ptr<Schedule> schedule;
   vector<shared_ptr<Classroom>> possible_classroom;
