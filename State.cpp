@@ -1,4 +1,6 @@
 #include "State.hpp"
+#include <iostream>
+#include <stdlib.h>
 
 // do deep copy for courses and shallow copy for classroom
 State::State(const RoomVector& r, const CourseVector& c) : rooms(r){
@@ -13,12 +15,14 @@ State::State(const State& s) : State(s.rooms,s.courses){
 void State::init_random_schedule(){
   std::default_random_engine generator;
 
-  std::uniform_int_distribution<int> room_idx_dist(0,rooms.size()-1);
   std::uniform_int_distribution<int> day_dist(0,4);
 
   for( auto& it : courses ){
     // random location
-    shared_ptr<Classroom> room = rooms[ room_idx_dist(generator) ];
+    auto& crooms = it->get_possible_classroom();
+    std::uniform_int_distribution<int> room_idx_dist(0,crooms.size()-1);
+
+    shared_ptr<Classroom> room = crooms[ room_idx_dist(generator) ];
 
     // random time
     const int ot = std::max( room->open_time, it->open_time );
@@ -31,6 +35,7 @@ void State::init_random_schedule(){
 
     it->set_schedule(Schedule(room,d,st,et));
   }
+  
 }
 
 int State::fitness_score(){
@@ -52,6 +57,28 @@ int State::fitness_score(){
 State State::mutate(){
   State s = *this;
   // TODO : alter state randomly
+  
+  //random course
+  shared_ptr<Course> altered_course = s.courses[rand()%s.courses.size()];
+  
+  // random location
+  auto& crooms = altered_course->get_possible_classroom();
+  shared_ptr<Classroom> room  =crooms[rand()%crooms.size()];
+  
+  // random time
+  const int ot = std::max( room->open_time, altered_course->open_time );
+  const int ct = std::min( room->close_time, altered_course->close_time );
+
+  Day d = static_cast<Day>( rand()%5 );
+  int st = rand()%(ct-altered_course->duration-ot)+ot;
+  int et = st + altered_course->duration;
+  
+  altered_course->set_schedule(Schedule(room,d,st,et));
+  
+  /*for (auto& it : s.courses) {
+    std::cout << it->get_schedule().room->name << "_" << static_cast<int>(it->get_schedule().day) << "_" << it->get_schedule().start_time << "_" << it->get_schedule().end_time << "  ";
+  }
+  std::cout << "\n";*/
   return s;
 }
 

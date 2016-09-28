@@ -12,20 +12,27 @@ const char* ScheduleInvalid::what() const throw() {
   return message.c_str();
 }
 
-Course::Course(const string& n, const int d, const int ot, const int ct )
+Course::Course(const string& n, const int d, const int ot, const int ct, const vector<shared_ptr<Classroom>>& rooms )
 :
 name(n),
 duration(d),
 open_time(ot),
 close_time(ct),
-schedule(nullptr)
+schedule(nullptr),
+possible_classroom(rooms)
 {
 
 }
 
-Course::Course(const Course& c) : Course(c.name,c.duration,c.open_time,c.close_time) {
-
+Course::Course(const Course& c) : Course(c.name,c.duration,c.open_time,c.close_time,c.possible_classroom) {
+  if( c.schedule )
+    set_schedule(*c.schedule);
 }
+
+const vector<shared_ptr<Classroom>>& Course::get_possible_classroom() const {
+  return possible_classroom;
+}
+
 
 const Schedule& Course::get_schedule() const {
   if( !schedule )
