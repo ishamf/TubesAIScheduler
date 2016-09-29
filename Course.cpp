@@ -67,3 +67,8 @@ void Course::check_schedule(const Schedule& s) const {
   if( !(std::find(possible_day.begin(), possible_day.end(), s.day) != possible_day.end())) throw ScheduleInvalid("day");
   if( !(std::find(possible_classroom.begin(), possible_classroom.end(), s.room) != possible_classroom.end())) throw ScheduleInvalid("classroom");
 }
+
+void Course::print_data() const {
+  cout<<"Course "<<name<<", ";
+  (*schedule).printdata();
+}

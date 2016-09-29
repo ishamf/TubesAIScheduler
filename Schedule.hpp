@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "Classroom.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -27,6 +28,9 @@ public:
   const int end_time;
 
   static bool intersect(const Schedule&, const Schedule& );
+
+  void print_data() const;
+
 };
 
 
