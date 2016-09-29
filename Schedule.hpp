@@ -4,17 +4,9 @@
 #include <memory>
 #include "Classroom.hpp"
 #include <iostream>
+#include "Day.hpp"
 
 using namespace std;
-
-enum class Day {
-  Monday,
-  Tuesday,
-  Wednesday,
-  Thursday,
-  Friday,
-  Undefined
-};
 
 class Schedule {
 public:
@@ -29,7 +21,7 @@ public:
 
   static bool intersect(const Schedule&, const Schedule& );
 
-  void print_data() const;
+  //void print_data() const;
 
 };
 

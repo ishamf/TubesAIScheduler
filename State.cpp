@@ -84,12 +84,12 @@ State State::mutate(){
   
   altered_course->set_schedule(Schedule(room,d,st,et));
   
-  /*cout << "altered\n";
+  //cout << "altered\n";
   
   for (auto& it : s.courses) {
     std::cout << it->get_schedule().room->name << "_" << static_cast<int>(it->get_schedule().day) << "_" << it->get_schedule().start_time << "_" << it->get_schedule().end_time << "  ";
   }
-  std::cout << "\n";*/
+  std::cout << "\n";
   return s;
 }
 
