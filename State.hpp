@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include <random>
+#include <algorithm>
 
 using namespace std;
 
