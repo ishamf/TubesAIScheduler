@@ -23,15 +23,18 @@ private:
 };
 
 
+const std::vector<Day> every_day = { Day::Monday, Day::Tuesday, Day::Wednesday, Day::Thursday, Day::Friday };
+
 class Course {
 public:
-  Course(const string& name, const int duration, const int open_time, const int close_time, const vector<shared_ptr<Classroom>>& rooms);
+  Course(const string& name, const int duration, const int open_time, const int close_time, const vector<shared_ptr<Classroom>>& rooms, const std::vector<Day>& days = every_day);
   Course(const Course& c);
 
   void check_schedule() const;
   void check_schedule(const Schedule& s) const;
 
   const vector<shared_ptr<Classroom>>& get_possible_classroom() const;
+  const vector<Day> get_possible_day() const;
   void set_schedule(const Schedule&);
   const Schedule& get_schedule() const ;
 
@@ -46,6 +49,7 @@ public:
 private:
   unique_ptr<Schedule> schedule;
   vector<shared_ptr<Classroom>> possible_classroom;
+  vector<Day> possible_day;
 };
 
 #endif
