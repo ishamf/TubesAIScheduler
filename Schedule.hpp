@@ -28,11 +28,8 @@ public:
   const int end_time;
 
   static bool intersect(const Schedule&, const Schedule& );
-
-  void print_data() const;
-
 };
 
-
+std::ostream& operator<< (std::ostream& stream, const Schedule& schedule);
 
 #endif

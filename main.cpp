@@ -4,7 +4,6 @@
 #include "Classroom.hpp"
 #include "State.hpp"
 #include "Annealing.hpp"
-#include "GA.hpp"
 
 #include <memory>
 
@@ -24,6 +23,8 @@ int main(){
 
   shared_ptr<Classroom> room (new Classroom("7606",8,16));
   Course course("AI",2,7,15, {room});
+  Schedule sch(room,Day::Tuesday,8,10);
+  cout << sch << endl;
   course.set_schedule(Schedule(room,Day::Tuesday,8,10));
   course.get_schedule();
 
@@ -31,39 +32,7 @@ int main(){
 
   cout << course2.get_schedule().start_time << endl;
   cout << course2.get_possible_classroom()[0]->open_time << endl;
+  cout << course2 << endl;
 
-//  course->set_schedule(Schedule(room,Day::Monday,8,9));
-//  course->get_schedule();
-
-//  Schedule s1(room,Day::Monday,8,9);
-//  Schedule s2(room2,Day::Monday,7,9);
-
-//  cout << Schedule::intersect(s1,s2) << endl;
-
-  //genetic_algorithm(rooms, courses, 10, 0.1, 0.3);
-  /*
-  State s(rooms,courses);
-  s.init_random_schedule();
-
-  State u(rooms,courses);
-  u.init_random_schedule();
-
-  printf("Conflict: %d\n", s.fitness_score());
-  printf("Conflict: %d\n", u.fitness_score());
-  crossover(s, u);
-*/
-  course.print_data();
-  course2.print_data();
-  State s(rooms,courses);
-  s.init_random_schedule();
-  for (int i=0 ; i<10 ; i++)
-    s = s.mutate();
-
-  Annealing a(s,100,0.0003);
-  //for (int i=0 ; i<100 ; i++)
-	  //cout << a.countAcceptanceRate(50,rand()%50) << endl;
-
-  //a.simulatedAnnealing();
-  a.hillClimbing();
   return 0;
 }

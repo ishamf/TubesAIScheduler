@@ -23,7 +23,19 @@ bool Schedule::intersect(const Schedule& lhs, const Schedule& rhs){
   return true;
 }
 
-void Schedule::print_data() const{
-  cout << "Schedule: room " << room->name;
-  printf(" day %d st %d et %d\n", day, start_time, end_time);
+std::ostream& operator<< (std::ostream& stream, const Schedule& schedule){
+  string day_str;
+
+  switch(schedule.day){
+  case Day::Monday: day_str = "Monday"; break;
+  case Day::Tuesday: day_str = "Tuesday"; break;
+  case Day::Wednesday: day_str = "Wednesday"; break;
+  case Day::Thursday: day_str = "Thursday"; break;
+  case Day::Friday: day_str = "Friday"; break;
+  default: day_str = "Unknown"; break;
+  }
+
+  stream << "Schedule: room " << (schedule.room)->name
+      << " day " << day_str << " st " << schedule.start_time << " et " << schedule.end_time;
+  return stream;
 }

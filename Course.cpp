@@ -68,7 +68,7 @@ void Course::check_schedule(const Schedule& s) const {
   if( !(std::find(possible_classroom.begin(), possible_classroom.end(), s.room) != possible_classroom.end())) throw ScheduleInvalid("classroom");
 }
 
-void Course::print_data() const {
-  cout<<"Course "<<name<<", ";
-  (*schedule).printdata();
+std::ostream& operator<< (std::ostream& stream, const Course& course){
+  stream << "Course " << course.name << ", " << *(course.schedule);
+  return stream;
 }

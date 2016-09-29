@@ -8,6 +8,7 @@
 #include <string>
 #include <exception>
 #include <vector>
+#include <ostream>
 
 class ScheduleNotDefined: public std::exception {
 public:
@@ -44,12 +45,14 @@ public:
   const int open_time;
   const int close_time;
 
-  void print_data() const;
+  friend std::ostream& operator<< (std::ostream& stream, const Course& course);
 
 private:
   unique_ptr<Schedule> schedule;
   vector<shared_ptr<Classroom>> possible_classroom;
   vector<Day> possible_day;
 };
+
+std::ostream& operator<< (std::ostream& stream, const Course& course);
 
 #endif
