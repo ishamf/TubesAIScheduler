@@ -41,7 +41,7 @@ public:
   const int open_time;
   const int close_time;
 
-  void printdata() const;
+  void print_data() const;
 
 private:
   unique_ptr<Schedule> schedule;

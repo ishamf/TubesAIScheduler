@@ -28,7 +28,7 @@ public:
 
   static bool intersect(const Schedule&, const Schedule& );
 
-  void printdata() const;
+  void print_data() const;
 
 };
 
