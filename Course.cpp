@@ -65,3 +65,8 @@ void Course::check_schedule(const Schedule& s) const {
   if( s.end_time > ct ) throw ScheduleInvalid("end_time");
   if( s.end_time - s.start_time != duration ) throw ScheduleInvalid("duration");
 }
+
+void Course::print_data() const {
+  cout<<"Course "<<name<<", ";
+  (*schedule).printdata();
+}
