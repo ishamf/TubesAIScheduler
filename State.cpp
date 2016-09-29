@@ -68,7 +68,7 @@ State State::mutate(){
   //cout << "got class" << room->name << "\n";
   
   // random time
-  //const int ot = std::max( room->open_time, altered_course->open_time );
+  const int ot = std::max( room->open_time, altered_course->open_time );
   cout << "ot\n";
   const int ct = std::min( room->close_time, altered_course->close_time );
   //cout << "ct\n";

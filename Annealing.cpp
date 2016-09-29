@@ -9,11 +9,11 @@ double Annealing::countAcceptanceRate(const int currentscore, const int newscore
   return (exp((currentscore-newscore)/temp));
 }
 
-Annealing::solve() {
+Annealing::simulatedAnnealing() {
   //currentstate.mutate();
   cout << currentstate.fitness_score() << "\n";
   int count = 0;
-  while ((currentstate.fitness_score() == 0) && (temp > 1)) {
+  while ((currentstate.fitness_score() > 0) && (temp > 1)) {
 	  cout << "1";
     State newstate = currentstate;
 	newstate = newstate.mutate();
@@ -40,7 +40,27 @@ Annealing::solve() {
 	cout << "fitness: " << currentstate.fitness_score() << "\n";
 	cout << "\ncount : " << count << "\n";
 	cout << "temp : " << temp << "\n";
-	
-	//Use hill climbing here
   }
+	//Use hill climbing here
+  
+}
+
+Annealing::hillClimbing() {
+  int count = 0;
+  while ((currentstate.fitness_score() > 0) && (count < 100000)) {
+    cout << "1";
+    State newstate = currentstate;
+	newstate = newstate.mutate();
+	cout << "2";
+    int currentscore = currentstate.fitness_score();
+    int newscore = newstate.fitness_score();
+    if (newscore < currentscore) {
+      currentstate = newstate;
+	  cout << "3a";
+    }
+	count++;
+	cout << "fitness: " << currentstate.fitness_score() << "\n";
+	cout << "\ncount : " << count << "\n";
+	cout << "temp : " << temp << "\n";
+  }	
 }

@@ -51,6 +51,7 @@ int main(){
   //for (int i=0 ; i<100 ; i++)
 	  //cout << a.countAcceptanceRate(50,rand()%50) << endl;
   
-  a.solve();
+  //a.simulatedAnnealing();
+  a.hillClimbing();
   return 0;
 }
