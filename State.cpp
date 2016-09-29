@@ -60,36 +60,36 @@ State State::mutate(){
   
   //random course
   shared_ptr<Course> altered_course = s.courses[rand()%s.courses.size()];
-  cout << "got course" << altered_course->name << "\n";
+  //cout << "got course" << altered_course->name << "\n";
   
   // random location
   auto& crooms = altered_course->get_possible_classroom();
   shared_ptr<Classroom> room  =crooms[rand()%crooms.size()];
-  cout << "got class" << room->name << "\n";
+  //cout << "got class" << room->name << "\n";
   
   // random time
-  const int ot = std::max( room->open_time, altered_course->open_time );
+  //const int ot = std::max( room->open_time, altered_course->open_time );
   cout << "ot\n";
   const int ct = std::min( room->close_time, altered_course->close_time );
-  cout << "ct\n";
+  //cout << "ct\n";
 
   Day d = static_cast<Day>( rand()%5 );
-  cout << "done cast\n";
+  //cout << "done cast\n";
   cout << altered_course->duration;
   int st = (rand()%(1+ct-ot-(altered_course->duration)))+ot;
-  cout << "st" << st <<"\n";
+  //cout << "st" << st <<"\n";
   int et = st + altered_course->duration;
-  cout << "et\n";
-  cout << "day" << static_cast<int>(d) << " st" << st << " et" << et << "\n"; 
+  /*cout << "et\n";
+  cout << "day" << static_cast<int>(d) << " st" << st << " et" << et << "\n"; */
   
   altered_course->set_schedule(Schedule(room,d,st,et));
   
-  cout << "altered\n";
+  /*cout << "altered\n";
   
   for (auto& it : s.courses) {
     std::cout << it->get_schedule().room->name << "_" << static_cast<int>(it->get_schedule().day) << "_" << it->get_schedule().start_time << "_" << it->get_schedule().end_time << "  ";
   }
-  std::cout << "\n";
+  std::cout << "\n";*/
   return s;
 }
 
