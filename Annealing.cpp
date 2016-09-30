@@ -9,7 +9,7 @@ double Annealing::countAcceptanceRate(const int currentscore, const int newscore
   return (exp((currentscore-newscore)/temp));
 }
 
-Annealing::simulatedAnnealing() {
+void Annealing::simulatedAnnealing() {
   //currentstate.mutate();
   cout << currentstate.fitness_score() << "\n";
   int count = 0;
@@ -42,10 +42,12 @@ Annealing::simulatedAnnealing() {
 	cout << "temp : " << temp << "\n";
   }
 	//Use hill climbing here
-  
+  if (currentstate.fitness_score() > 0) {
+	  hillClimbing();
+  }
 }
 
-Annealing::hillClimbing() {
+void Annealing::hillClimbing() {
   int count = 0;
   while ((currentstate.fitness_score() > 0) && (count < 100000)) {
     cout << "1";
