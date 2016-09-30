@@ -6,14 +6,9 @@
 #include <vector>
 #include <memory>
 #include <random>
+#include <algorithm>
 
 using namespace std;
-
-
-typedef shared_ptr<Classroom> pRoom;
-typedef vector<pRoom> RoomVector;
-typedef shared_ptr<Course> pCourse;
-typedef vector<pCourse> CourseVector;
 
 class State {
 public:
