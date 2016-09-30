@@ -15,7 +15,6 @@ State::State(const RoomVector& r, const CourseVector& c) : rooms(r){
 State::State(const State& s) : State(s.rooms,s.courses){
 }
 
-
 int State::fitness_score(){
   int fit = 0;
   for (int i = 0;i < courses.size();i++) {
@@ -30,6 +29,16 @@ int State::fitness_score(){
     }
   }
   return fit;
+}
+
+CourseVector State::get_courses() const
+{
+	CourseVector cs;
+	for (auto& it : courses) {
+		cs.emplace_back(new Course(*it));
+	}
+
+	return cs;
 }
 
 void crossover( State& lhs, State& rhs){
