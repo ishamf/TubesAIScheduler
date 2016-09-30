@@ -23,6 +23,8 @@ public:
   //static State crossover( const State&, const State& );
   friend void crossover( State&, State& );
 
+  CourseVector get_courses() const;
+
 private:
 
   // all variable should be kept immutable

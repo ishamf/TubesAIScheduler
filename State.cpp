@@ -139,6 +139,16 @@ State State::mutate(){
   return s;
 }
 
+CourseVector State::get_courses() const
+{
+	CourseVector cs;
+	for (auto& it : courses) {
+		cs.emplace_back(new Course(*it));
+	}
+
+	return cs;
+}
+
 void crossover( State& lhs, State& rhs){
   std::random_device rd;
   std::mt19937 seed(rd());
