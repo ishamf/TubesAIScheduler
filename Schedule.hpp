@@ -4,17 +4,9 @@
 #include <memory>
 #include "Classroom.hpp"
 #include <iostream>
+#include "Day.hpp"
 
 using namespace std;
-
-enum class Day {
-  Monday,
-  Tuesday,
-  Wednesday,
-  Thursday,
-  Friday,
-  Undefined
-};
 
 class Schedule {
 public:
@@ -28,6 +20,7 @@ public:
   const int end_time;
 
   static bool intersect(const Schedule&, const Schedule& );
+
 };
 
 std::ostream& operator<< (std::ostream& stream, const Schedule& schedule);

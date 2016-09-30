@@ -28,9 +28,6 @@ private:
   const string message;
 };
 
-
-const std::vector<Day> every_day = { Day::Monday, Day::Tuesday, Day::Wednesday, Day::Thursday, Day::Friday };
-
 class Course {
 public:
   Course(const string& name, const int duration, const int open_time, const int close_time, const vector<shared_ptr<Classroom>>& rooms, const std::vector<Day>& days = every_day);

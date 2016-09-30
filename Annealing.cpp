@@ -41,8 +41,11 @@ void Annealing::simulatedAnnealing() {
 	cout << "\ncount : " << count << "\n";
 	cout << "temp : " << temp << "\n";
   }
-	//Use hill climbing here
 
+	//Use hill climbing here
+  if (currentstate.fitness_score() > 0) {
+	  hillClimbing();
+  }
 }
 
 void Annealing::hillClimbing() {
