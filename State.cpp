@@ -37,7 +37,7 @@ void State::init_random_schedule(){
 		vector<Day> course_possible_day;
 		vector<Day> possible_day;
 		while (possible_day.empty()) { //if no possible_day for selected room and course
-			room = crooms[ room_idx_dist(generator) ];    
+			room = crooms[ room_idx_dist(generator) ];
 			room_possible_day = room->get_possible_day();
 			course_possible_day = it->get_possible_day();
 			//intersect to find possible day for course it in room
@@ -48,10 +48,13 @@ void State::init_random_schedule(){
 		while( !(std::find(possible_day.begin(), possible_day.end(), d) != possible_day.end())) {
 			d = static_cast<Day>( day_dist(generator) );
 		}
-		
+
 		// random time
 		const int ot = std::max( room->open_time, it->open_time );
 		const int ct = std::min( room->close_time, it->close_time );
+
+		if (ct - ot < it->duration) continue;
+
 		std::uniform_int_distribution<int> start_time_dist(ot,ct-it->duration);
 		int st = start_time_dist(generator);
 		int et = st + it->duration;
@@ -83,21 +86,21 @@ int State::fitness_score(){
 State State::mutate(){
   State s = *this;
   //alter state randomly
-  
+
   //Mersenne Twister Random generator
   typedef std::mt19937 MyRNG;
   uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
   MyRNG generator;
   generator.seed(seed_val);
-  
+
   std::uniform_int_distribution<int> day_dist(0,4);
   std::uniform_int_distribution<int> course_dist(0,(s.courses.size()-1));
-  
+
   bool done = false;
   //random course
   shared_ptr<Course> altered_course = s.courses[course_dist(generator)];
   while(!done) {
-	  
+
 	  // random location & day
 	  auto& crooms = altered_course->get_possible_classroom();
 	  std::uniform_int_distribution<int> room_idx_dist(0,crooms.size()-1);
@@ -108,7 +111,7 @@ State State::mutate(){
 	  vector<Day> course_possible_day;
 	  vector<Day> possible_day;
 	  while (possible_day.empty()) { //if no possible_day for selected room and course
-		room = crooms[ room_idx_dist(generator) ];    
+		room = crooms[ room_idx_dist(generator) ];
 		room_possible_day = room->get_possible_day();
 		course_possible_day = altered_course->get_possible_day();
 		//intersect to find possible day for course altered_course in room
@@ -137,6 +140,16 @@ State State::mutate(){
     std::cout << it->name << "_" << it->get_schedule().room->name << "_" << static_cast<int>(it->get_schedule().day) << "_" << it->get_schedule().start_time << "_" << it->get_schedule().end_time << "\n";
   }
   return s;
+}
+
+CourseVector State::get_courses() const
+{
+	CourseVector cs;
+	for (auto& it : courses) {
+		cs.emplace_back(new Course(*it));
+	}
+
+	return cs;
 }
 
 void crossover( State& lhs, State& rhs){

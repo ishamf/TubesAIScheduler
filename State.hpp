@@ -7,6 +7,7 @@
 #include <memory>
 #include <random>
 #include <algorithm>
+#include <iterator>
 
 using namespace std;
 
@@ -21,6 +22,8 @@ public:
   State mutate();
   //static State crossover( const State&, const State& );
   friend void crossover( State&, State& );
+
+  CourseVector get_courses() const;
 
 private:
 

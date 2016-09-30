@@ -10,7 +10,7 @@ using namespace std;
 
 class Schedule {
 public:
-  Schedule(const shared_ptr<Classroom>&,const Day,int,int);
+  Schedule(const shared_ptr<Classroom>&, const Day, int start, int end);
 
   bool operator<(const Schedule&) const;
 
