@@ -10,6 +10,11 @@
 #include <vector>
 #include <ostream>
 
+class Course;
+
+typedef shared_ptr<Course> pCourse;
+typedef std::vector<pCourse> CourseVector;
+
 class ScheduleNotDefined: public std::exception {
 public:
   const char* what() const throw();
