@@ -78,8 +78,16 @@ void ViewAdapter::add_course(const string course_description)
 }
 
 
-void ViewAdapter::move_course(const string course_name, const int src_day, const int src_time, const int dest_day, const int dest_time)
+void ViewAdapter::move_course(const string course_name, const string room_name, const int dest_day, const int dest_time)
 {
+	pCourse course = course_by_name[course_name];
+	Schedule old_schedule = course->get_schedule();
+	course->set_schedule(Schedule(
+		room_by_name[room_name],
+		day_from_int(dest_day),
+		dest_time,
+		dest_time + course->duration));
+
 }
 
 CourseTime ViewAdapter::get_course_result(const string course_name) const

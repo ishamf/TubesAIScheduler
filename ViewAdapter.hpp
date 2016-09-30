@@ -24,8 +24,7 @@ public:
 	void add_room(const string room_description);
 	void add_course(const string course_description);
 
-	void move_course(const string course_name, 
-					 const int src_day, const int src_time,
+	void move_course(const string course_name, const string room_name,
 					 const int dest_day, const int dest_time);
 
 	CourseTime get_course_result(const string course_name) const;
