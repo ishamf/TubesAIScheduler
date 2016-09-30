@@ -34,6 +34,8 @@ vector<Day> parse_days(const string s) {
 		out.push_back(day_from_int(stoi(day_string)));
 	}
 
+	sort(out.begin(), out.end());
+
 	return out;
 }
 
