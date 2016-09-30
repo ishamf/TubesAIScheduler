@@ -35,7 +35,32 @@ private:
 	std::map<std::string, pCourse> course_by_name;
 	std::map<std::string, pRoom> room_by_name;
 
-	void update_courses(CourseVector& course_results);
+	void update_courses(CourseVector course_results);
 };
+
+#ifdef EMSCRIPTEN
+#include <emscripten/bind.h>
+
+using namespace emscripten;
+
+EMSCRIPTEN_BINDINGS(tubes_ai) {
+	value_object<CourseSchedule>("CourseSchedule")
+		.field("day", &CourseSchedule::day)
+		.field("time", &CourseSchedule::time)
+		.field("duration", &CourseSchedule::duration)
+		.field("room_name", &CourseSchedule::room_name)
+		;
+
+	class_<ViewAdapter>("ViewAdapter")
+		.constructor<>()
+		.function("add_room", &ViewAdapter::add_room)
+		.function("add_course", &ViewAdapter::add_course)
+		.function("move_course", &ViewAdapter::move_course)
+		.function("get_course_result", &ViewAdapter::get_course_result)
+		.function("randomize_schedule", &ViewAdapter::randomize_schedule)
+		;
+}
+
+#endif
 
 #endif // !VIEW_ADAPTER_HPP

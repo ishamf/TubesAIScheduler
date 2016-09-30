@@ -125,7 +125,7 @@ void ViewAdapter::randomize_schedule()
 	update_courses(s.get_courses());
 }
 
-void ViewAdapter::update_courses(CourseVector& course_results)
+void ViewAdapter::update_courses(CourseVector course_results)
 {
 	for (auto pc : course_results) {
 		course_by_name[pc->name] = pc;
