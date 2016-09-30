@@ -12,7 +12,7 @@ const char* ScheduleInvalid::what() const throw() {
   return message.c_str();
 }
 
-Course::Course(const string& n, const int d, const int ot, const int ct, const vector<shared_ptr<Classroom>>& rooms, const vector<Day>& days )
+Course::Course(const string& n, const int d, const int ot, const int ct, const vector<shared_ptr<Classroom>>& rooms, const set<Day>& days )
 :
 name(n),
 duration(d),
@@ -34,7 +34,7 @@ const vector<shared_ptr<Classroom>>& Course::get_possible_classroom() const {
   return possible_classroom;
 }
 
-const vector<Day> Course::get_possible_day() const {
+const set<Day> Course::get_possible_day() const {
   return possible_day;
 }
 
