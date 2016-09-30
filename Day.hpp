@@ -10,6 +10,6 @@ enum class Day {
   Undefined
 };
 
-const std::vector<Day> every_day = { Day::Monday, Day::Tuesday, Day::Wednesday, Day::Thursday, Day::Friday };
+const std::set<Day> every_day = { Day::Monday, Day::Tuesday, Day::Wednesday, Day::Thursday, Day::Friday };
 
 #endif
