@@ -90,12 +90,12 @@ void ViewAdapter::move_course(const string course_name, const string room_name, 
 
 }
 
-CourseTime ViewAdapter::get_course_result(const string course_name) const
+CourseSchedule ViewAdapter::get_course_result(const string course_name) const
 {
 	const pCourse &c = course_by_name.at(course_name);
 	const Schedule &s = c->get_schedule();
 
-	CourseTime ct;
+	CourseSchedule ct;
 	ct.day = (int) s.day;
 	ct.time = s.start_time;
 	ct.duration = s.end_time - s.start_time;

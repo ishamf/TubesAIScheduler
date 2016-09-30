@@ -10,7 +10,7 @@
 #include "State.hpp"
 #include "Classroom.hpp"
 
-struct CourseTime {
+struct CourseSchedule {
 	int day;
 	int time;
 	int duration;
@@ -27,7 +27,7 @@ public:
 	void move_course(const string course_name, const string room_name,
 					 const int dest_day, const int dest_time);
 
-	CourseTime get_course_result(const string course_name) const;
+	CourseSchedule get_course_result(const string course_name) const;
 
 	void randomize_schedule();
 
