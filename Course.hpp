@@ -15,6 +15,15 @@ class Course;
 typedef shared_ptr<Course> pCourse;
 typedef std::vector<pCourse> CourseVector;
 
+enum ScheduleInvalidErrorType {
+  StartTimeError,
+  EndTimeError,
+  DurationError,
+  DayError,
+  ClassroomError,
+  NoError
+};
+
 class ScheduleNotDefined: public std::exception {
 public:
   const char* what() const throw();
@@ -35,6 +44,8 @@ public:
 
   void check_schedule() const;
   void check_schedule(const Schedule& s) const;
+
+  ScheduleInvalidErrorType get_schedule_error(const Schedule& s) const;
 
   const vector<shared_ptr<Classroom>>& get_possible_classroom() const;
   const set<Day> get_possible_day() const;
