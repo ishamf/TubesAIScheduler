@@ -29,6 +29,8 @@ public:
 
   CourseVector get_courses() const;
 
+  friend std::ostream& operator<< (std::ostream& stream, const State& state);
+
 private:
 
   // all variable should be kept immutable
@@ -104,10 +106,11 @@ State State::mutate( URNG& generator ){
   shared_ptr<Course> altered_course = s.courses[course_dist(generator)];
 
   altered_course->set_schedule( generate_random_schedule( altered_course, generator ) );
-
+/*
   for (auto& it : s.courses) {
     std::cout << *it << endl;
   }
+*/
   return s;
 }
 

@@ -26,24 +26,36 @@ void GA::selection(){
   }
   mean_fitness = (float) sum_fitness / pop;
   vector<State> newpopulation; //faster than removing each element on old population
+  MyRNG generator;
   for (int i = 0;i < pop;i++) {
     uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
-    MyRNG generator;
     generator.seed(seed_val);
 
-    float range = (float) omega - (mean_fitness * 0.75);
-    float random = (mean_fitness * 0.75) + ((float) generator() / generator.max() * range); //random-random (mean * 0,75, max)
+    float range = (float) omega - (mean_fitness * 0.5);
+    if ((range < 1)&&(mean_fitness == omega)) {
+        range = 1.2;
+    }
+    float random = (mean_fitness * 0.5) + ((float) generator() / generator.max() * range); //random-random (mean * 0,75, max)
     //printf("Selection random: %.2f from (%.2f, %.2f)\n", random, (float) omega-range, (float) omega);
     if (population[i].fitness_score() < random) {
       newpopulation.push_back(population[i]);
     }
     //For Debugging Purposes
     /*else {
-      printf("Removed specimen %d with selection factor of %.2f\n", i, random);
+      printf("Removed specimen %d, fitness %d with selection factor of %.2f\n", i, population[i].fitness_score(), random);
     }
     */
   }
   int i = 0;
+  if (newpopulation.empty()) {
+    printf("Entered failsafe mode\n");
+    newpopulation.push_back(alpha); //failsafe
+    newpopulation[0].mutate(generator);
+    newpopulation[0].mutate(generator);
+    newpopulation.push_back(alpha);
+    //int waw;
+    //scanf("%d", &waw);
+  }
   while (newpopulation.size() < pop) {
     uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
     MyRNG generator;
@@ -51,20 +63,21 @@ void GA::selection(){
 
     float random = (float) generator() / generator.max(); //random-random
     float prob = (float) 1/sqrt(pop);
-    //printf("Repopulate random: %.2f, current specimen %d\n", random, i);
+    //printf("Repopulate random: %.2f, current specimen %d out of %d\n", random, i, newpopulation.size());
     if (random < prob) {
         //For Debugging Purposes
         //printf("Chosen specimen %d to repopulate with %.2f probability\n", i, prob);
         newpopulation.push_back(population[i]);
     }
-    if (i > population.size()-2) {
-        i = 0;
+    if (i > ((signed)newpopulation.size()-2)) {
+      i = 0;
     }
     else {
-        i++;
+      i++;
     }
   }
   population = newpopulation;
+  newpopulation.clear();
 }
 
 void GA::xover(){
@@ -123,7 +136,7 @@ void GA::elitist(){
     }
   }
   //For Debugging Purposes
-  printf("Alpha %d, new best %d, new worst %d", alpha.fitness_score(), best, worst);
+  printf("Alpha %d, new best %d, new worst %d\n", alpha.fitness_score(), best, worst);
   if (best < alpha.fitness_score()) {
     alpha = population[bidx]; //copy constructor ?
   }

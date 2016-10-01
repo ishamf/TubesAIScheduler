@@ -57,28 +57,30 @@ int main(){
   */
   int dum;
   int last_worst = -1, last_best = -1, unchanged = 0;
-  GA test1(rooms, courses, 20, 0.1, 0.2);
+  GA test1(rooms, courses, 50, 0.2, 0.2);
   test1.find_alpha_omega();
-  while ((test1.get_alpha().fitness_score() > 0)&&(unchanged < 10)) {
+  while ((test1.get_alpha().fitness_score() > 0)&&(unchanged < 50)) {
     test1.selection();
     test1.xover();
     test1.mutation();
     test1.elitist();
-    //scanf("%d", &dum); <- for step by step
+
     unchanged++;
     if (last_worst != test1.get_omega()){
       last_worst = test1.get_omega();
       unchanged = 0;
     }
     if (last_best != test1.get_alpha().fitness_score()){
-      last_worst = test1.get_alpha().fitness_score();
+      last_best = test1.get_alpha().fitness_score();
       unchanged = 0;
     }
+
+    //printf("========>> %d\n", unchanged);
+    //scanf("%d", &dum); //<- for step by step
+
   }
   printf("\n\n============DONE=============\n\n");
   State result = test1.get_alpha();
-  for (auto& it : result.get_courses()) {
-    std::cout << *it << endl;
-  }
+  cout << result << endl;
   return 0;
 }

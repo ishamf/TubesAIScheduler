@@ -68,3 +68,11 @@ void crossover( State& lhs, State& rhs){
   }
   */
 }
+
+std::ostream& operator<< (std::ostream& stream, const State& state){
+  stream << "State:" << endl;
+  for( auto& it : state.courses ){
+    stream << *it << endl;
+  }
+  return stream;
+}
