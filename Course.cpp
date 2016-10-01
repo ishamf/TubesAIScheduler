@@ -12,7 +12,7 @@ const char* ScheduleInvalid::what() const throw() {
   return message.c_str();
 }
 
-Course::Course(const string& n, const int d, const int ot, const int ct, const vector<shared_ptr<Classroom>>& rooms, const vector<Day>& days )
+Course::Course(const string& n, const int d, const int ot, const int ct, const vector<shared_ptr<Classroom>>& rooms, const set<Day>& days )
 :
 name(n),
 duration(d),
@@ -34,7 +34,7 @@ const vector<shared_ptr<Classroom>>& Course::get_possible_classroom() const {
   return possible_classroom;
 }
 
-const vector<Day> Course::get_possible_day() const {
+const set<Day> Course::get_possible_day() const {
   return possible_day;
 }
 
@@ -64,9 +64,11 @@ void Course::check_schedule(const Schedule& s) const {
   if( s.start_time < ot ) throw ScheduleInvalid("start_time");
   if( s.end_time > ct ) throw ScheduleInvalid("end_time");
   if( s.end_time - s.start_time != duration ) throw ScheduleInvalid("duration");
+  if( !(std::find(possible_day.begin(), possible_day.end(), s.day) != possible_day.end())) throw ScheduleInvalid("day");
+  if( !(std::find(possible_classroom.begin(), possible_classroom.end(), s.room) != possible_classroom.end())) throw ScheduleInvalid("classroom");
 }
 
-void Course::print_data() const {
-  cout<<"Course "<<name<<", ";
-  (*schedule).printdata();
+std::ostream& operator<< (std::ostream& stream, const Course& course){
+  stream << "Course " << course.name << ", " << *(course.schedule);
+  return stream;
 }

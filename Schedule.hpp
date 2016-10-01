@@ -4,21 +4,13 @@
 #include <memory>
 #include "Classroom.hpp"
 #include <iostream>
+#include "Day.hpp"
 
 using namespace std;
 
-enum class Day {
-  Monday,
-  Tuesday,
-  Wednesday,
-  Thursday,
-  Friday,
-  Undefined
-};
-
 class Schedule {
 public:
-  Schedule(const shared_ptr<Classroom>&,const Day,int,int);
+  Schedule(const shared_ptr<Classroom>&, const Day, int start, int end);
 
   bool operator<(const Schedule&) const;
 
@@ -29,10 +21,8 @@ public:
 
   static bool intersect(const Schedule&, const Schedule& );
 
-  void print_data() const;
-
 };
 
-
+std::ostream& operator<< (std::ostream& stream, const Schedule& schedule);
 
 #endif
