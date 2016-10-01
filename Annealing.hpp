@@ -24,39 +24,27 @@ public:
 
 template<class URNG>
 void Annealing::simulatedAnnealing( URNG& generator ) {
-  //currentstate.mutate();
-  cout << currentstate.fitness_score() << "\n";
   int count = 0;
   while ((currentstate.fitness_score() > 0) && (temp > 1)) {
-	  cout << "1";
     State newstate = currentstate;
-	newstate = newstate.mutate( generator );
-	cout << "2";
+    newstate = newstate.mutate( generator );
     int currentscore = currentstate.fitness_score();
     int newscore = newstate.fitness_score();
-	temp *= 1-coolingrate;
-    if (newscore < currentscore) {
+    temp *= 1-coolingrate;
+    if (newscore < currentscore) { //accept better soltion
       currentstate = newstate;
-	  cout << "3a";
     }
-	else {
-	  double acceptanceRate = countAcceptanceRate(currentscore,newscore);
-	  double randomscore = (rand()%100)/100.00;
-	  cout << "\n\n acc rate : " << acceptanceRate << "\n\n";
-	  cout << "\n\n random score : " << randomscore << "\n\n";
-      if (acceptanceRate > randomscore) {
+    else {
+      double acceptanceRate = countAcceptanceRate(currentscore,newscore);
+      double randomscore = (rand()%100)/100.00;
+      if (acceptanceRate > randomscore) { //accept worse solution base on probability
         currentstate = newstate;
-		cout << "3c";
       }
-	  cout << "3d";
     }
-	count++;
-	cout << "fitness: " << currentstate.fitness_score() << "\n";
-	cout << "\ncount : " << count << "\n";
-	cout << "temp : " << temp << "\n";
+	  count++;
   }
 
-	//Use hill climbing here
+	//Use hill climbing here if SA temp drop below 1
   if (currentstate.fitness_score() > 0) {
 	  hillClimbing(generator);
   }
@@ -66,20 +54,14 @@ template<class URNG>
 void Annealing::hillClimbing( URNG& generator ) {
   int count = 0;
   while ((currentstate.fitness_score() > 0) && (count < 100000)) {
-    cout << "1";
     State newstate = currentstate;
-  	newstate = newstate.mutate( generator );
-  	cout << "2";
+    newstate = newstate.mutate( generator );
     int currentscore = currentstate.fitness_score();
     int newscore = newstate.fitness_score();
-    if (newscore < currentscore) {
+    if (newscore < currentscore) { //only accept better solution
       currentstate = newstate;
-      cout << "3a";
     }
-  	count++;
-  	cout << "fitness: " << currentstate.fitness_score() << "\n";
-  	cout << "\ncount : " << count << "\n";
-  	cout << "temp : " << temp << "\n";
+    count++;
   }
 }
 
