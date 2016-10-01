@@ -16,10 +16,13 @@ public:
   State(const RoomVector& rooms, const CourseVector& courses);
   State(const State& s);
 
-  void init_random_schedule();
+  template<class URNG>
+  void init_random_schedule(  URNG& generator);
 
   int fitness_score();
-  State mutate();
+
+  template<class URNG>
+  State mutate( URNG& generator );
   //static State crossover( const State&, const State& );
   friend void crossover( State&, State& );
 
@@ -31,5 +34,81 @@ private:
   RoomVector rooms;
   CourseVector courses;
 };
+
+template<class URNG>
+Schedule generate_random_schedule(const shared_ptr<Course>& course, URNG& generator) {
+  // random location & day
+  std::vector<shared_ptr<Classroom>> crooms = course->get_possible_classroom();
+  shuffle( crooms.begin(), crooms.end(), generator);
+
+  const auto& course_possible_day = course->get_possible_day();
+
+  vector<pair<shared_ptr<Classroom>,Day>> possible;
+  for( auto& r : crooms ){
+    const auto& room_possible_day = r->get_possible_day();
+
+    //intersect to find possible day for course it in room
+    vector<Day> possible_day;
+    std::set_intersection(room_possible_day.begin(),room_possible_day.end(),course_possible_day.begin(),course_possible_day.end(),back_inserter(possible_day));
+    for( auto& d:possible_day){
+      possible.push_back(make_pair(r,d));
+    }
+  }
+
+  possible.erase(
+    remove_if(possible.begin(),possible.end(),[&course](const pair<shared_ptr<Classroom>,Day>& location_day){
+      const shared_ptr<Classroom>& room = location_day.first;
+      const int ot = std::max( room->open_time, course->open_time );
+      const int ct = std::min( room->close_time, course->close_time );
+      if( ct-course->duration < ot ) return true;
+      return false;
+    }),
+    possible.end()
+  );
+
+  if( possible.empty() ) throw new exception();
+
+  std::uniform_int_distribution<int> location_day_dist(0,possible.size()-1);
+
+  pair<shared_ptr<Classroom>,Day> location_day = possible[ location_day_dist(generator) ];
+
+  shared_ptr<Classroom> room = location_day.first;
+  Day d = location_day.second;
+  // random time
+  const int ot = std::max( room->open_time, course->open_time );
+  const int ct = std::min( room->close_time, course->close_time );
+  std::uniform_int_distribution<int> start_time_dist(ot,ct-course->duration);
+  int st = start_time_dist(generator);
+  int et = st + course->duration;
+
+  return Schedule(room,d,st,et);
+}
+
+template<class URNG>
+void State::init_random_schedule( URNG& generator ){
+  for( auto& it : courses ){
+    it->set_schedule(generate_random_schedule(it, generator));
+  }
+}
+
+
+template<class URNG>
+State State::mutate( URNG& generator ){
+  State s = *this;
+  //alter state randomly
+
+  std::uniform_int_distribution<int> course_dist(0,(s.courses.size()-1));
+
+  //random course
+  shared_ptr<Course> altered_course = s.courses[course_dist(generator)];
+
+  altered_course->set_schedule( generate_random_schedule( altered_course, generator ) );
+
+  for (auto& it : s.courses) {
+    std::cout << *it << endl;
+  }
+  return s;
+}
+
 
 #endif

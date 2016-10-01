@@ -16,7 +16,7 @@ bool Schedule::operator<(const Schedule& lhs) const{
 
 bool Schedule::intersect(const Schedule& lhs, const Schedule& rhs){
   if( lhs.day != rhs.day ) return false;
-  if( lhs.room != rhs.room ) return false;
+  if( lhs.room->name != rhs.room->name ) return false;
   if( lhs.end_time - 1 < rhs.start_time ) return false;
   if( rhs.end_time - 1 < lhs.start_time ) return false;
 
@@ -35,7 +35,9 @@ std::ostream& operator<< (std::ostream& stream, const Schedule& schedule){
   default: day_str = "Unknown"; break;
   }
 
-  stream << "Schedule: room " << (schedule.room)->name
+  const string& room_name = (schedule.room ? (schedule.room)->name : "undefined");
+
+  stream << "Schedule: room " << room_name
       << " day " << day_str << " st " << schedule.start_time << " et " << schedule.end_time;
   return stream;
 }

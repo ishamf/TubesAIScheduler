@@ -26,12 +26,12 @@ Day day_from_int(int x) {
 	throw invalid_argument("Invalid day");
 }
 
-vector<Day> parse_days(const string s) {
+set<Day> parse_days(const string s) {
 	vector<string> elems = split(s, ',');
-	vector<Day> out;
+	set<Day> out;
 
 	for (auto& day_string : elems) {
-		out.push_back(day_from_int(stoi(day_string)));
+		out.insert(day_from_int(stoi(day_string)));
 	}
 
 	sort(out.begin(), out.end());
@@ -49,7 +49,7 @@ void ViewAdapter::add_room(const string room_description)
 	string name = elems[0];
 	int open_time = stoi(elems[1].substr(0, 2));
 	int close_time = stoi(elems[2].substr(0, 2));
-	vector<Day> days = parse_days(elems[3]);
+	set<Day> days = parse_days(elems[3]);
 
 	room_by_name[name] = pRoom(new Classroom(name, open_time, close_time, days));
 }
@@ -62,7 +62,7 @@ void ViewAdapter::add_course(const string course_description)
 	int open_time = stoi(elems[2].substr(0, 2));
 	int close_time = stoi(elems[3].substr(0, 2));
 	int duration = stoi(elems[4]);
-	vector<Day> days = parse_days(elems[5]);
+	set<Day> days = parse_days(elems[5]);
 
 	vector<pRoom> rooms;
 	if (room_names[0] == "-") {
@@ -126,7 +126,11 @@ void ViewAdapter::randomize_schedule()
 
 	State s(rv, cv);
 
-	s.init_random_schedule();
+	typedef std::mt19937 MyRNG;
+  uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
+  MyRNG generator;
+  generator.seed(seed_val);
+	s.init_random_schedule(generator);
 
 	update_courses(s.get_courses());
 }
