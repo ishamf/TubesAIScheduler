@@ -27,7 +27,13 @@ void GA::selection(){
   mean_fitness = (float) sum_fitness / pop;
   vector<State> newpopulation; //faster than removing each element on old population
   for (int i = 0;i < pop;i++) {
-    float random; //random-random (mean * 0,75, max)
+    uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
+    MyRNG generator;
+    generator.seed(seed_val);
+
+    float range = (float) omega - (mean_fitness * 0.75);
+    float random = (mean_fitness * 0.75) + ((float) generator() / generator.max() * range); //random-random (mean * 0,75, max)
+    //printf("Selection random: %.2f from (%.2f, %.2f)\n", random, (float) omega-range, (float) omega);
     if (population[i].fitness_score() < random) {
       newpopulation.push_back(population[i]);
     }
@@ -39,14 +45,19 @@ void GA::selection(){
   }
   int i = 0;
   while (newpopulation.size() < pop) {
-    float random; //random-random
+    uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
+    MyRNG generator;
+    generator.seed(seed_val);
+
+    float random = (float) generator() / generator.max(); //random-random
     float prob = (float) 1/sqrt(pop);
+    //printf("Repopulate random: %.2f, current specimen %d\n", random, i);
     if (random < prob) {
         //For Debugging Purposes
         //printf("Chosen specimen %d to repopulate with %.2f probability\n", i, prob);
         newpopulation.push_back(population[i]);
     }
-    if (i = newpopulation.size()-1) {
+    if (i > population.size()-2) {
         i = 0;
     }
     else {
@@ -59,7 +70,12 @@ void GA::selection(){
 void GA::xover(){
   for (int i = 0;i < pop-1;i++) {
     for (int j = i+1;j < pop;j++) {
-      float random; //random-random
+      uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
+      MyRNG generator;
+      generator.seed(seed_val);
+
+      float random = (float) generator() / generator.max();
+      //printf("Crossover random: %.2f\n", random);
       if (random < pxover) {
         //For Debugging Purposes
         //printf("Crossover between specimen %d and %d from total population %d\n", i, j, pop);
@@ -71,7 +87,12 @@ void GA::xover(){
 
 void GA::mutation(){
   for (int i = 0;i < pop;i++) {
-    float random; //random-random
+    uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
+    MyRNG generator;
+    generator.seed(seed_val);
+
+    float random = (float) generator() / generator.max();
+    //printf("Mutation random: %.2f\n", random);
     if (random < pmutate) {
       //For Debugging Purposes
       //printf("Mutation in specimen %d from total population %d\n", i, pop);
@@ -102,7 +123,7 @@ void GA::elitist(){
     }
   }
   //For Debugging Purposes
-  //printf("Alpha %d, new best %d, new worst %d", alpha.fitness_score(), best, worst);
+  printf("Alpha %d, new best %d, new worst %d", alpha.fitness_score(), best, worst);
   if (best < alpha.fitness_score()) {
     alpha = population[bidx]; //copy constructor ?
   }
@@ -129,4 +150,13 @@ void GA::find_alpha_omega(){
   }
   alpha = population[bidx];
   omega = worst;
+  printf("Alpha Omega found (%d, %d)\n", alpha.fitness_score(), omega);
+}
+
+State GA::get_alpha(){
+  return alpha;
+}
+
+int GA::get_omega(){
+  return omega;
 }

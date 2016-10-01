@@ -14,6 +14,11 @@ public:
   void xover();
   void mutation();
   void elitist();
+
+  void find_alpha_omega();
+
+  State get_alpha();
+  int get_omega();
 private:
   vector<State> population;
 
@@ -24,8 +29,6 @@ private:
 
   State alpha;
   int omega;
-
-  void find_alpha_omega();
 };
 
 

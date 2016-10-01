@@ -4,6 +4,7 @@
 #include "Classroom.hpp"
 #include "State.hpp"
 #include "Annealing.hpp"
+#include "GA.hpp"
 
 #include <memory>
 #include <random>
@@ -37,6 +38,7 @@ int main(){
   courses.emplace_back(new Course("IF3111",2, 7, 12, rooms));
 
   //Mersenne Twister Random generator
+  /*
   typedef std::mt19937 MyRNG;
   uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
   MyRNG generator;
@@ -52,6 +54,31 @@ int main(){
 
   //a.simulatedAnnealing();
   a.hillClimbing( generator );
-
+  */
+  int dum;
+  int last_worst = -1, last_best = -1, unchanged = 0;
+  GA test1(rooms, courses, 20, 0.1, 0.2);
+  test1.find_alpha_omega();
+  while ((test1.get_alpha().fitness_score() > 0)&&(unchanged < 10)) {
+    test1.selection();
+    test1.xover();
+    test1.mutation();
+    test1.elitist();
+    //scanf("%d", &dum); <- for step by step
+    unchanged++;
+    if (last_worst != test1.get_omega()){
+      last_worst = test1.get_omega();
+      unchanged = 0;
+    }
+    if (last_best != test1.get_alpha().fitness_score()){
+      last_worst = test1.get_alpha().fitness_score();
+      unchanged = 0;
+    }
+  }
+  printf("\n\n============DONE=============\n\n");
+  State result = test1.get_alpha();
+  for (auto& it : result.get_courses()) {
+    std::cout << *it << endl;
+  }
   return 0;
 }
