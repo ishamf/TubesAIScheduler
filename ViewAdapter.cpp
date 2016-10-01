@@ -119,19 +119,7 @@ vector<CourseSchedule> ViewAdapter::get_course_results() const
 
 void ViewAdapter::randomize_schedule()
 {
-	RoomVector rv;
-
-	for (auto r : room_by_name) {
-		rv.push_back(r.second);
-	}
-
-	CourseVector cv;
-
-	for (auto c : course_by_name) {
-		cv.push_back(c.second);
-	}
-
-	State s(rv, cv);
+	State s = build_state();
 
 	typedef std::mt19937 MyRNG;
   uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
@@ -185,4 +173,21 @@ void ViewAdapter::build_solution(const string filename) {
     }
     randomize_schedule();
   }
+}
+
+State ViewAdapter::build_state() const
+{
+	RoomVector rv;
+
+	for (auto r : room_by_name) {
+		rv.push_back(r.second);
+	}
+
+	CourseVector cv;
+
+	for (auto c : course_by_name) {
+		cv.push_back(c.second);
+	}
+
+	return State(rv, cv);
 }

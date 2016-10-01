@@ -41,6 +41,7 @@ private:
 
 	void update_courses(CourseVector course_results);
 	CourseSchedule build_course_schedule(const pCourse& c) const;
+	State build_state() const;
 };
 
 #ifdef EMSCRIPTEN
