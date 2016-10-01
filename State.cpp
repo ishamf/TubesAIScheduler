@@ -6,6 +6,8 @@
 #include <random>
 
 // do deep copy for courses and shallow copy for classroom
+State::State(){}
+
 State::State(const RoomVector& r, const CourseVector& c) : rooms(r){
   for( auto& it : c ){
     courses.emplace_back(new Course(*it));
