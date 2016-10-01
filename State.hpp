@@ -13,6 +13,7 @@ using namespace std;
 
 class State {
 public:
+  State();
   State(const RoomVector& rooms, const CourseVector& courses);
   State(const State& s);
 
