@@ -33,6 +33,7 @@ public:
 	vector<CourseSchedule> get_course_results() const;
 
 	void randomize_schedule();
+	void build_solution(const string filename);
 
 private:
 	std::map<std::string, pCourse> course_by_name;

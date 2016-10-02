@@ -1,4 +1,7 @@
 #include "ViewAdapter.hpp"
+#include "Annealing.hpp"
+#include <fstream>
+#include <iostream>
 
 void split(const string &s, char delim, vector<string> &elems) {
 	stringstream ss;
@@ -136,6 +139,12 @@ void ViewAdapter::randomize_schedule()
   generator.seed(seed_val);
 	s.init_random_schedule(generator);
 
+	/*Annealing a(s,100,0.003);
+	a.simulatedAnnealing(generator);
+	//a.hillClimbing(generator);
+	cout << a.currentstate;
+	cout << "Fitness : " << a.currentstate.fitness_score() << endl;*/
+
 	update_courses(s.get_courses());
 }
 
@@ -158,4 +167,22 @@ CourseSchedule ViewAdapter::build_course_schedule(const pCourse & c) const
 	ct.room_name = s.room->name;
 
 	return ct;
+}
+
+void ViewAdapter::build_solution(const string filename) {
+  ifstream infile;
+  infile.open(filename);
+  string line;
+  if (infile.is_open()) {
+    while((infile >> line) && (line.compare("Ruangan") != 0)) {
+
+    }
+    while((infile >> line) && (line.compare("Jadwal") != 0)) {
+      add_room(line);
+    }
+    while(infile >> line) {
+    	add_course(line);
+    }
+    randomize_schedule();
+  }
 }
