@@ -19,6 +19,8 @@ struct CourseSchedule {
 	string room_name;
 };
 
+typedef std::mt19937 MyRNG;
+
 class ViewAdapter {
 public:
 	ViewAdapter();
@@ -43,6 +45,7 @@ public:
 private:
 	std::map<std::string, pCourse> course_by_name;
 	std::map<std::string, pRoom> room_by_name;
+	MyRNG generator;
 
 	void update_courses(CourseVector course_results);
 	CourseSchedule build_course_schedule(const pCourse& c) const;

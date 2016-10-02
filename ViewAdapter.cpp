@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 
+
 void split(const string &s, char delim, vector<string> &elems) {
 	stringstream ss;
 	ss.str(s);
@@ -42,6 +43,8 @@ set<Day> parse_days(const string s) {
 
 ViewAdapter::ViewAdapter()
 {
+    uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
+    generator.seed(seed_val);
 }
 
 void ViewAdapter::add_room(const string room_description)
@@ -121,10 +124,10 @@ void ViewAdapter::randomize_schedule()
 {
 	State s = build_state();
 
-	typedef std::mt19937 MyRNG;
-  uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
-  MyRNG generator;
-  generator.seed(seed_val);
+//	typedef std::mt19937 MyRNG;
+//  uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
+//  MyRNG generator;
+//  generator.seed(seed_val);
 	s.init_random_schedule(generator);
 
 	/*Annealing a(s,100,0.003);
@@ -138,11 +141,17 @@ void ViewAdapter::randomize_schedule()
 
 void ViewAdapter::run_simulated_annealing()
 {
-	State s = build_state();
+    State s = build_state();
+    Annealing a(s,100,0.003);
+    a.simulatedAnnealing(generator);
+    s = a.currentstate;
+    //cout << s;
+    //cout << "Fitness : " << s.fitness_score() << endl;
 
 	// pake s
 	// ...
 	// hasil di s
+
 
 	update_courses(s.get_courses());
 }
@@ -150,7 +159,7 @@ void ViewAdapter::run_simulated_annealing()
 void ViewAdapter::run_genetic_algorithm()
 {
 	State s = build_state();
-
+    
 	// pake s
 	// ...
 	// hasil di s
@@ -161,7 +170,11 @@ void ViewAdapter::run_genetic_algorithm()
 void ViewAdapter::run_hill_climbing()
 {
 	State s = build_state();
-
+    Annealing a(s,100,0.003);
+    a.hillClimbing(generator);
+    s = a.currentstate;
+    //cout << s;
+    //cout << "Fitness : " << s.fitness_score() << endl;
 	// pake s
 	// ...
 	// hasil di s
@@ -202,9 +215,11 @@ void ViewAdapter::build_solution(const string filename) {
       add_room(line);
     }
     while(infile >> line) {
-    	add_course(line);
+      add_course(line);
     }
-    randomize_schedule();
+    //randomize_schedule();
+    //run_hill_climbing();
+    //run_simulated_annealing();
   }
 }
 
