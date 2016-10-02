@@ -120,6 +120,11 @@ double ViewAdapter::get_room_percentage()
 	return build_state().room_percentage();
 }
 
+int ViewAdapter::get_conflicts()
+{
+	return build_state().fitness_score();
+}
+
 CourseSchedule ViewAdapter::get_course_result(const string course_name) const
 {
 	const pCourse &c = course_by_name.at(course_name);
