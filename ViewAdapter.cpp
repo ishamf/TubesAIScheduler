@@ -136,6 +136,39 @@ void ViewAdapter::randomize_schedule()
 	update_courses(s.get_courses());
 }
 
+void ViewAdapter::run_simulated_annealing()
+{
+	State s = build_state();
+
+	// pake s
+	// ...
+	// hasil di s
+
+	update_courses(s.get_courses());
+}
+
+void ViewAdapter::run_genetic_algorithm()
+{
+	State s = build_state();
+
+	// pake s
+	// ...
+	// hasil di s
+
+	update_courses(s.get_courses());
+}
+
+void ViewAdapter::run_hill_climbing()
+{
+	State s = build_state();
+
+	// pake s
+	// ...
+	// hasil di s
+
+	update_courses(s.get_courses());
+}
+
 void ViewAdapter::update_courses(CourseVector course_results)
 {
 	for (auto pc : course_results) {

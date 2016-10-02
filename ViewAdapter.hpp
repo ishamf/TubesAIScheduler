@@ -33,6 +33,11 @@ public:
 	vector<CourseSchedule> get_course_results() const;
 
 	void randomize_schedule();
+
+	void run_simulated_annealing();
+	void run_genetic_algorithm();
+	void run_hill_climbing();
+
 	void build_solution(const string filename);
 
 private:
@@ -68,6 +73,9 @@ EMSCRIPTEN_BINDINGS(tubes_ai) {
 		.function("get_course_result", &ViewAdapter::get_course_result)
 		.function("get_course_results", &ViewAdapter::get_course_results)
 		.function("randomize_schedule", &ViewAdapter::randomize_schedule)
+		.function("run_simulated_annealing", &ViewAdapter::run_simulated_annealing)
+		.function("run_genetic_algorithm", &ViewAdapter::run_genetic_algorithm)
+		.function("run_hill_climbing", &ViewAdapter::run_hill_climbing)
 		;
 }
 
