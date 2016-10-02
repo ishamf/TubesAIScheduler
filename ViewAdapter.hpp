@@ -10,6 +10,7 @@
 #include "Course.hpp"
 #include "State.hpp"
 #include "Classroom.hpp"
+#include "GA.hpp"
 
 struct CourseSchedule {
 	string course_name;

@@ -21,6 +21,7 @@ public:
   void init_random_schedule(  URNG& generator);
 
   int fitness_score();
+  double room_percentage();
 
   template<class URNG>
   State mutate( URNG& generator );
@@ -28,6 +29,7 @@ public:
   friend void crossover( State&, State& );
 
   CourseVector get_courses() const;
+  RoomVector get_rooms() const;
 
   friend std::ostream& operator<< (std::ostream& stream, const State& state);
 

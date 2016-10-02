@@ -166,9 +166,27 @@ void ViewAdapter::run_genetic_algorithm()
 {
 	State s = build_state();
 
-	// pake s
-	// ...
-	// hasil di s
+    int last_worst = -1, last_best = -1, unchanged = 0;
+
+	GA test1(s.get_rooms(), s.get_courses(), 50, 0.2, 0.2); //50 population, 0.2 chance mutation, 0.2 chance crossover
+    test1.find_alpha_omega();
+    while ((test1.get_alpha().fitness_score() > 0)&&(unchanged < 50)) { //50 unchanged state to stop iteration
+        test1.selection();
+        test1.xover();
+        test1.mutation();
+        test1.elitist();
+
+        unchanged++;
+        if (last_worst != test1.get_omega()){
+            last_worst = test1.get_omega();
+            unchanged = 0;
+        }
+        if (last_best != test1.get_alpha().fitness_score()){
+            last_best = test1.get_alpha().fitness_score();
+            unchanged = 0;
+        }
+    }
+    s = test1.get_alpha();
 
 	update_courses(s.get_courses());
 }
