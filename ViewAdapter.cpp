@@ -115,6 +115,11 @@ bool ViewAdapter::can_move_course(const string course_name, const string room_na
 		dest_time + course->duration)) == NoError;
 }
 
+double ViewAdapter::get_room_percentage()
+{
+	return build_state().room_percentage();
+}
+
 CourseSchedule ViewAdapter::get_course_result(const string course_name) const
 {
 	const pCourse &c = course_by_name.at(course_name);
