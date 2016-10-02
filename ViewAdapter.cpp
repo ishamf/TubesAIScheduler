@@ -88,18 +88,31 @@ bool ViewAdapter::move_course(const string course_name, const string room_name, 
 {
 	pCourse course = course_by_name[course_name];
 	Schedule old_schedule = course->get_schedule();
-	try {
-		course->set_schedule(Schedule(
-			room_by_name[room_name],
-			day_from_int(dest_day),
-			dest_time,
-			dest_time + course->duration));
+	Schedule new_schedule(
+		room_by_name[room_name],
+		day_from_int(dest_day),
+		dest_time,
+		dest_time + course->duration
+	);
+
+	if (course->get_schedule_error(new_schedule) == NoError) {
+		course->set_schedule(new_schedule);
+		return true;
 	}
-	catch (ScheduleInvalid s) {
+	else {
 		return false;
 	}
+}
 
-	return true;
+bool ViewAdapter::can_move_course(const string course_name, const string room_name, const int dest_day, const int dest_time)
+{
+	pCourse course = course_by_name[course_name];
+	Schedule old_schedule = course->get_schedule();
+	return course->get_schedule_error(Schedule(
+		room_by_name[room_name],
+		day_from_int(dest_day),
+		dest_time,
+		dest_time + course->duration)) == NoError;
 }
 
 CourseSchedule ViewAdapter::get_course_result(const string course_name) const
