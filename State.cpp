@@ -43,6 +43,16 @@ CourseVector State::get_courses() const
 	return cs;
 }
 
+RoomVector State::get_rooms() const
+{
+	RoomVector rs;
+	for (auto& it : rooms) {
+		rs.emplace_back(new Classroom(*it));
+	}
+
+	return rs;
+}
+
 void crossover( State& lhs, State& rhs){
   std::random_device rd;
   std::mt19937 seed(rd());

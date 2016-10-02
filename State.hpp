@@ -28,6 +28,7 @@ public:
   friend void crossover( State&, State& );
 
   CourseVector get_courses() const;
+  RoomVector get_rooms() const;
 
   friend std::ostream& operator<< (std::ostream& stream, const State& state);
 
