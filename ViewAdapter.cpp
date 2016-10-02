@@ -145,13 +145,6 @@ void ViewAdapter::run_simulated_annealing()
     Annealing a(s,100,0.003);
     a.simulatedAnnealing(generator);
     s = a.currentstate;
-    //cout << s;
-    //cout << "Fitness : " << s.fitness_score() << endl;
-
-	// pake s
-	// ...
-	// hasil di s
-
 
 	update_courses(s.get_courses());
 }
@@ -159,7 +152,7 @@ void ViewAdapter::run_simulated_annealing()
 void ViewAdapter::run_genetic_algorithm()
 {
 	State s = build_state();
-    
+
 	// pake s
 	// ...
 	// hasil di s
@@ -173,11 +166,6 @@ void ViewAdapter::run_hill_climbing()
     Annealing a(s,100,0.003);
     a.hillClimbing(generator);
     s = a.currentstate;
-    //cout << s;
-    //cout << "Fitness : " << s.fitness_score() << endl;
-	// pake s
-	// ...
-	// hasil di s
 
 	update_courses(s.get_courses());
 }
