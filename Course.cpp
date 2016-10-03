@@ -86,6 +86,9 @@ ScheduleInvalidErrorType Course::get_schedule_error(const Schedule & s) const
   if (!(std::find(possible_day.begin(), possible_day.end(), s.day) != possible_day.end())) return DayError;
   if (!(std::find(possible_classroom.begin(), possible_classroom.end(), s.room) != possible_classroom.end())) return ClassroomError;
 
+  auto room_days = s.room->get_possible_day();
+  if (!room_days.count(s.day)) return DayError;
+
   return NoError;
 }
 
