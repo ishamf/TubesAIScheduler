@@ -57,7 +57,7 @@ int main(){
   */
   int dum;
   int last_worst = -1, last_best = -1, unchanged = 0;
-  GA test1(rooms, courses, 50, 0.2, 0.2);
+  GA test1(rooms, courses, 50, 0.15, 0.1);
   test1.find_alpha_omega();
   while ((test1.get_alpha().fitness_score() > 0)&&(unchanged < 50)) {
     test1.selection();
