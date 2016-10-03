@@ -43,8 +43,8 @@ public:
 
 	void randomize_schedule();
 
-	void run_simulated_annealing(const double temp, const double cool);
-	void run_genetic_algorithm(const int pop, const float cmutate, const float cxover, const int uchange);
+	void run_simulated_annealing(const double temp=100, const double cool=0.003, const double loop = 100000);
+	void run_genetic_algorithm(const int pop = 50, const float cmutate = 0.15, const float cxover = 0.1, const int uchange = 50, const int iterations=100000);
 	void run_hill_climbing(const int loop=100000);
 
 	void build_solution(const string filename);

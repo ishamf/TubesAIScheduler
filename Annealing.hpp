@@ -10,7 +10,7 @@ public:
   double countAcceptanceRate(const int currentscore, const int newscore);
 
   template<class URNG>
-  void simulatedAnnealing( URNG& generator );
+  void simulatedAnnealing( URNG& generator, const int loop );
 
   template<class URNG>
   void hillClimbing( URNG& generator, const int loop );
@@ -23,7 +23,7 @@ public:
 
 
 template<class URNG>
-void Annealing::simulatedAnnealing( URNG& generator ) {
+void Annealing::simulatedAnnealing( URNG& generator, const int loop ) {
   int count = 0;
   while ((currentstate.fitness_score() > 0) && (temp > 1)) {
     State newstate = currentstate;
@@ -46,7 +46,7 @@ void Annealing::simulatedAnnealing( URNG& generator ) {
 
 	//Use hill climbing here if SA temp drop below 1
   if (currentstate.fitness_score() > 0) {
-	  hillClimbing(generator, 100000);
+	  hillClimbing(generator, loop);
   }
 }
 
