@@ -13,7 +13,7 @@ public:
   void simulatedAnnealing( URNG& generator );
 
   template<class URNG>
-  void hillClimbing( URNG& generator );
+  void hillClimbing( URNG& generator, const int loop );
 
   State currentstate;
   double temp;
@@ -46,14 +46,14 @@ void Annealing::simulatedAnnealing( URNG& generator ) {
 
 	//Use hill climbing here if SA temp drop below 1
   if (currentstate.fitness_score() > 0) {
-	  hillClimbing(generator);
+	  hillClimbing(generator, 100000);
   }
 }
 
 template<class URNG>
-void Annealing::hillClimbing( URNG& generator ) {
+void Annealing::hillClimbing( URNG& generator, const int loop ) {
   int count = 0;
-  while ((currentstate.fitness_score() > 0) && (count < 100000)) {
+  while ((currentstate.fitness_score() > 0) && (count < loop)) {
     State newstate = currentstate;
     newstate = newstate.mutate( generator );
     int currentscore = currentstate.fitness_score();

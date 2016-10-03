@@ -43,9 +43,9 @@ public:
 
 	void randomize_schedule();
 
-	void run_simulated_annealing();
-	void run_genetic_algorithm();
-	void run_hill_climbing();
+	void run_simulated_annealing(const double temp, const double cool);
+	void run_genetic_algorithm(const int pop, const float cmutate, const float cxover, const int uchange);
+	void run_hill_climbing(const int loop=100000);
 
 	void build_solution(const string filename);
 

@@ -162,25 +162,25 @@ void ViewAdapter::randomize_schedule()
 	update_courses(s.get_courses());
 }
 
-void ViewAdapter::run_simulated_annealing()
+void ViewAdapter::run_simulated_annealing(const double temp=100, const double cool=0.003)
 {
     State s = build_state();
-    Annealing a(s,100,0.003);
+    Annealing a(s,temp,cool);
     a.simulatedAnnealing(generator);
     s = a.currentstate;
 
 	update_courses(s.get_courses());
 }
 
-void ViewAdapter::run_genetic_algorithm()
+void ViewAdapter::run_genetic_algorithm(const int pop=50, const float cmutate=0.15, const float cxover=0.1, const int uchange=50)
 {
 	State s = build_state();
 
     int last_worst = -1, last_best = -1, unchanged = 0;
 
-	GA test1(s.get_rooms(), s.get_courses(), 50, 0.15, 0.1); //50 population, 0.2 chance mutation, 0.2 chance crossover
+	GA test1(s.get_rooms(), s.get_courses(), pop, cmutate, cxover); //50 population, 0.2 chance mutation, 0.2 chance crossover
     test1.find_alpha_omega();
-    while ((test1.get_alpha().fitness_score() > 0)&&(unchanged < 50)) { //50 unchanged state to stop iteration
+    while ((test1.get_alpha().fitness_score() > 0)&&(unchanged < uchange)) { //50 unchanged state to stop iteration
         test1.selection();
         test1.xover();
         test1.mutation();
@@ -201,11 +201,11 @@ void ViewAdapter::run_genetic_algorithm()
 	update_courses(s.get_courses());
 }
 
-void ViewAdapter::run_hill_climbing()
+void ViewAdapter::run_hill_climbing(const int loop)
 {
 	State s = build_state();
     Annealing a(s,100,0.003);
-    a.hillClimbing(generator);
+    a.hillClimbing(generator, loop);
     s = a.currentstate;
 
 	update_courses(s.get_courses());
