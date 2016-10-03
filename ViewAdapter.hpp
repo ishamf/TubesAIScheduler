@@ -32,6 +32,12 @@ public:
 	bool move_course(const string course_name, const string room_name,
 					 const int dest_day, const int dest_time);
 
+	bool can_move_course(const string course_name, const string room_name,
+		const int dest_day, const int dest_time);
+
+	double get_room_percentage();
+	int get_conflicts();
+
 	CourseSchedule get_course_result(const string course_name) const;
 	vector<CourseSchedule> get_course_results() const;
 
@@ -74,6 +80,9 @@ EMSCRIPTEN_BINDINGS(tubes_ai) {
 		.function("add_room", &ViewAdapter::add_room)
 		.function("add_course", &ViewAdapter::add_course)
 		.function("move_course", &ViewAdapter::move_course)
+		.function("can_move_course", &ViewAdapter::can_move_course)
+		.function("get_room_percentage", &ViewAdapter::get_room_percentage)
+		.function("get_conflicts", &ViewAdapter::get_conflicts)
 		.function("get_course_result", &ViewAdapter::get_course_result)
 		.function("get_course_results", &ViewAdapter::get_course_results)
 		.function("randomize_schedule", &ViewAdapter::randomize_schedule)

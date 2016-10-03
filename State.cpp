@@ -33,6 +33,49 @@ int State::fitness_score(){
   return fit;
 }
 
+double State::room_percentage(){
+  double room_hours = 0;
+  for(auto& it : rooms) {
+    double hours_per_day = it->close_time - it->open_time;
+    room_hours += (hours_per_day * it->possible_day.size());
+  }
+
+  double course_hours = 0;
+  for (int i = 0;i < courses.size();i++) {
+    course_hours += courses[i]->duration;
+    double reduction;
+    for (int j = i+1;j < courses.size();j++) {
+      if (Schedule::intersect(courses[i]->get_schedule(), courses[j]->get_schedule())) {
+        //cout << "intersect : " << courses[i]->name << " " << courses[j]->name << endl;
+        int start_i = courses[i]->get_schedule().start_time;
+        int start_j = courses[j]->get_schedule().start_time;
+        int end_i = courses[i]->get_schedule().end_time;
+        int end_j = courses[j]->get_schedule().end_time;
+        if (end_i >= end_j) {
+          if (start_i > start_j) {
+            reduction = end_j - start_i;
+          }
+          else if (start_j >= start_i) {
+            reduction = end_j - start_j;
+          }
+        }
+        else if (end_i < end_j) {
+          if (start_i >= start_j) {
+            reduction = end_i - start_i;
+          }
+          else {
+            reduction = end_i - start_j;
+          }
+        }
+        course_hours -= reduction;
+        //cout << "reduction : " << reduction << " chours : " << course_hours << endl;
+      }
+    }
+  }
+  double result = course_hours/room_hours * 100;
+  return result;
+}
+
 CourseVector State::get_courses() const
 {
 	CourseVector cs;

@@ -21,6 +21,7 @@ public:
   void init_random_schedule(  URNG& generator);
 
   int fitness_score();
+  double room_percentage();
 
   template<class URNG>
   State mutate( URNG& generator );
