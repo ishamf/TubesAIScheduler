@@ -101,7 +101,7 @@ template<class URNG>
 State State::mutate( URNG& generator ){
   State s = *this;
   //alter state randomly
-  
+
   vector<int> conflict_courses;
 
   for (int i = 0;i < s.courses.size()-1;i++) {
@@ -111,6 +111,7 @@ State State::mutate( URNG& generator ){
     }
     if (j < s.courses.size()) {
       conflict_courses.push_back(i);
+      conflict_courses.push_back(j);
     }
   }
 
