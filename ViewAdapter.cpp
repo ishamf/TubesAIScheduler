@@ -178,7 +178,7 @@ void ViewAdapter::run_genetic_algorithm()
 
     int last_worst = -1, last_best = -1, unchanged = 0;
 
-	GA test1(s.get_rooms(), s.get_courses(), 50, 0.2, 0.2); //50 population, 0.2 chance mutation, 0.2 chance crossover
+	GA test1(s.get_rooms(), s.get_courses(), 50, 0.15, 0.1); //50 population, 0.2 chance mutation, 0.2 chance crossover
     test1.find_alpha_omega();
     while ((test1.get_alpha().fitness_score() > 0)&&(unchanged < 50)) { //50 unchanged state to stop iteration
         test1.selection();

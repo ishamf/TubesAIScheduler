@@ -39,10 +39,10 @@ void GA::selection(){
       newpopulation.push_back(population[i]);
     }
     //For Debugging Purposes
-    else {
+    /*else {
       printf("Removed specimen %d, fitness %d with selection factor of %.2f\n", i, population[i].fitness_score(), random);
     }
-
+    */
   }
   int i = 0;
   if (newpopulation.empty()) {
@@ -61,7 +61,7 @@ void GA::selection(){
     //printf("Repopulate random: %.2f, current specimen %d out of %d\n", random, i, newpopulation.size());
     if (random < prob) {
         //For Debugging Purposes
-        printf("Chosen specimen %d to repopulate with %.2f probability\n", i, prob);
+        //printf("Chosen specimen %d to repopulate with %.2f probability\n", i, prob);
         newpopulation.push_back(population[i]);
     }
     if (i > ((signed)newpopulation.size()-2)) {
@@ -86,7 +86,7 @@ void GA::xover(){
       //printf("Crossover random: %.2f\n", random);
       if (random < pxover) {
         //For Debugging Purposes
-        printf("Crossover between specimen %d and %d from total population %d\n", i, j, pop);
+        //printf("Crossover between specimen %d and %d from total population %d\n", i, j, pop);
         crossover(population[i], population[j]);
       }
     }
@@ -103,10 +103,7 @@ void GA::mutation(){
     //printf("Mutation random: %.2f\n", random);
     if (random < pmutate) {
       //For Debugging Purposes
-      printf("Mutation in specimen %d from total population %d\n", i, pop);
-      uint32_t seed_val = std::chrono::system_clock::now().time_since_epoch().count();
-      MyRNG generator;
-      generator.seed(seed_val);
+      //printf("Mutation in specimen %d from total population %d\n", i, pop);
 
       population[i] = population[i].mutate(generator);
     }
