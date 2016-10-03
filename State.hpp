@@ -101,11 +101,23 @@ template<class URNG>
 State State::mutate( URNG& generator ){
   State s = *this;
   //alter state randomly
+  
+  vector<int> conflict_courses;
 
-  std::uniform_int_distribution<int> course_dist(0,(s.courses.size()-1));
+  for (int i = 0;i < s.courses.size()-1;i++) {
+    int j = i + 1;
+    while ((j < s.courses.size()) && !Schedule::intersect(s.courses[i]->get_schedule(), s.courses[j]->get_schedule())) {
+      j++;
+    }
+    if (j < s.courses.size()) {
+      conflict_courses.push_back(i);
+    }
+  }
+
+  std::uniform_int_distribution<int> course_dist(0,(conflict_courses.size()-1));
 
   //random course
-  shared_ptr<Course> altered_course = s.courses[course_dist(generator)];
+  shared_ptr<Course> altered_course = s.courses[conflict_courses[course_dist(generator)]];
 
   altered_course->set_schedule( generate_random_schedule( altered_course, generator ) );
 /*
